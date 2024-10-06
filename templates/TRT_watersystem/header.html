@@ -1,0 +1,280 @@
+<!------------------------------------------------------------------
+	header.html
+	HTML Header file for the TRT Watersystem website
+
+	(c) KaiserWare, Volker Petersen, October 2024
+-------------------------------------------------------------------->
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta name="keywords" content="Territory HOA, Watersystem" />
+	<meta name="author" content="Territory HOA" />
+	<meta name="robots" content="index,follow" />
+	<meta name="MS.LOCALE" content="EN-US" />
+	<meta name="resource-type" content="document" />
+	<meta name="revisit-after" content="3 days" />
+	<meta name="classification" content="HOA" />
+	<meta name="distribution" content="GLOBAL" />
+	<meta name="doc-class" content="Completed" />
+	<meta name="copyright" content="Territory HOA" />
+
+	<title>{% block title %}{% endblock %}</title>
+	
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700" rel="stylesheet">
+
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" crossorigin="anonymous">
+	<!-- https://animate.style/ -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.2/css/bootstrap.min.css" rel="stylesheet"
+		media="all">
+	<link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet" crossorigin="anonymous">
+	
+	<link href="{% static '/' %}{{css}}" rel="stylesheet">
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.2/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="{% static '/' %}{{js}}"></script>
+
+	<link rel="icon" href="{% static '/images/' %}trt.ico">
+
+
+</head>
+<body class="bg-light">
+
+	<!--=====================================================================================
+    Site Navigation Header
+    ======================================================================================-->
+	<div id="topbar" class="container">
+		<div class="social-links text-end">
+			&nbsp;
+		</div>
+	</div>
+	<nav id="navbar" class="navbar navbar-default fixed-top navbar-expand-lg bg-light">
+		<div class="container">
+			<a class="navbar-brand" href="{% url 'Home Page' %}">
+				<img class="brandLogo img-fluid" src="{% static 'images/trt.ico' %}" alt="TRT Logo">
+			</a>
+			<button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-controls="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="fas fa-bars" aria-hidden="true"></i>
+			</button>
+			<div id="main_nav" class="collapse navbar-collapse justify-content-end collapse">
+				<ul id="nav-list" class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link active" href="#Home">Home</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<main id="main" data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0" tabindex="0">
+	<!-- body page skeleton. Content gets inserted-->
+	{% block content %}
+	{% endblock %}
+	<!-- end of main body page-->
+	</main>
+<!--
+=============================================================================================================
+	Modal Concert Views
+=============================================================================================================
+-->
+{% for concert in allConcerts %}
+<div id="concert-{{concert.id}}" class="modal fade modal-lg" tabindex="-1" aria-labelledby="concert-{{concert.id}}" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			{% autoescape off %}
+			<div class="modal-header">
+				<h3 class="text-body pt-2 p-2"><b>{{concert.name}}</b></h3>
+				<button type="button" class="btn-close" id="modalFormClose" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="container pt-2">
+					<div class="row">
+						<div class="col-8">
+						</div>
+						<div class="col-4">
+							<img class="img-fluid" src="{% static 'images/' %}{{concert.picture}}">
+						</div>
+					</div>
+					<div class="row">
+						<div class="h-divider"></div>
+						<div class="col-12">
+							{{concert.summary}}
+							{% if concert.short and concert.short.strip %}
+								<br>{{concert.short}}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer"></div>
+			{% endautoescape %}
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+
+<!--
+=============================================================================================================
+	Modal Repertoire Table
+=============================================================================================================
+-->
+<div class="modal modal-xl fade" id="modalRepertoire" tabindex="-1" role="dialog" aria-labelledby="modalRepertoire" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header section-header">
+				<div class="row pt-2">
+					<h3 class="col-11 text-center">
+						{{site}} Repertoire 1980-{{year}}
+					</h3>
+					<div class="col-1">
+					<button type="button" class="btn-close" id="modalFormClose" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+					</div>
+					<div class="col-12 text-center">
+						<h5>Please feel free to browse our entire Repertoire performed
+						during the past {{year|add:"-1980"}} years</h5>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid pt-2">
+					<div class="row">
+					</div>
+					<div class="row">
+						<div class="col-12 table-responsive">
+							<table id="repertoireTable" class="table table-bordered table-hover table-striped display wrap"
+								cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th class="sorting_asc col-3">Composer</th>
+										<th class="sorting_asc col-7">Work</th>
+										<th class="sorting_asc col-2">Performed</th>
+									</tr>
+								</thead>
+					
+								<tfoot>
+									<tr>
+										<th class="col-3">Composer</th>
+										<th class="col-7">Work</th>
+										<th class="col-2">Performed</th>
+									</tr>
+								</tfoot>
+					
+								<tbody>
+								{% for concert in entireRepertoire %}
+									{% autoescape off %}
+									<tr>
+										<td class="text-left sorting_1">{{concert.composer_last}}, {{concert.composer_first}}</td>
+										<td class="text-left">{{concert.work}}</td>
+										<td class="text-left">{{concert.performed|date:"Y/m/d"}}</td>
+									</tr>
+									{% endautoescape %}
+								{% endfor %}
+
+								</tbody>
+							</table>	
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="container-fluid pt-2">
+					<div class="row">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!-- /Modal Repertoire table -->
+
+<footer id="footer" class="container-fluid footer">
+	<a class="fixed-bottom back-to-top" onClick="scrollToTop()">
+		<i class="fas fa-chevron-up"></i>
+	</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7 col-12 text-start">
+				<p><i>
+				&copy; 2011-{% now "Y" %} Volker Petersen<br />Design & Implementation: KaiserWare&#0153;
+				<span class="d-block d-sm-none">
+					Powered by Django
+				</span>
+				</i></p>
+			</div>
+			<div class="col-md-5 d-none d-md-block text-end">
+				<p><i>
+					{% now "M. d, Y" %}<br>
+					Powered by Django
+				</i></p>
+		</div>
+	</div>
+</footer>
+
+<script type='text/javascript'>
+	let $concertsIsotope;
+
+	function concertSeasonFilter(isotopeElements, season) {
+		var seasonStr;
+
+		isotopeElements.isotope({ filter: season.data('filter') });
+		if (season == "All") {
+			seasonStr = "Our Most Recent Concert Seasons";
+		} else {
+			seasonStr = "Our " + season.html() + " Concert Season";
+		}
+		var concertHeader = document.getElementById("Season_Heading");
+		if (concertHeader != null) {
+			concertHeader.innerHTML = seasonStr;
+		}
+		//console.log("filter:"+season.data('filter'));
+	}
+
+
+	
+	$( document ).ready(function() {
+		// code to close the mobile menu upon link selection
+    	let navMain = $(".navbar-collapse");
+		navMain.on("click", "a:not([data-bs-toggle])", null, function () {
+			navMain.collapse('hide');
+		});
+
+		// Concert Season Portfolio isotope filter
+		let $concertsIsotope;
+		$concertsIsotope = $('.concerts-items').isotope({
+			itemSelector: '.concert-item',
+			layoutMode: 'fitRows'
+		});
+
+		$('.concerts-filter li').on( 'click', function() {
+			$(".concerts-filter li").removeClass('filter-active');
+			$(this).addClass('filter-active');
+			concertSeasonFilter($concertsIsotope, $(this));
+		});
+
+		// wait 250 millisecond before updating the concert season selections
+		setTimeout(function() {
+			concertSeasonFilter($concertsIsotope, $("#initial-filter"));
+		}, 200);
+		// Initialize DataTable
+		$('#repertoireTable').DataTable({
+			paging: false,      // Enable pagination
+			searching: true,    // Enable search
+			ordering: true,     // Enable sorting
+			info: false,        // Show information
+			lengthChange: true, // Enable the "Show X entries" dropdown
+		});		
+	});
+</script>
+</body>
+</html>

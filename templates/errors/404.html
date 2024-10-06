@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!------------------------------------------------------------------
+	404.html
+	404 error page for the TRT Watersystem Website
+-------------------------------------------------------------------->
+
+{% extends "errors/errorheader.html" %}
+
+{% block title %}Page not found{% endblock %}
+
+{% block content %}
+   <!-- Start of main page body content-->
+    <div id="feedback" class="container intro pt-5">
+        <div class="row pt-4">
+            <h2 class="col-12 text-center text-primary">Oops - something went wrong</h2>
+            <h4 class="text-start">We could find the requested page on our server.</h4>
+        </div>
+        <div class="row pt-4">
+            <div class="col-12 text-start">
+                <h4>Please hit the button to return to the website</br>&nbsp;</h4>
+                <a type="button" class="btn btn-secondary" href="{% url 'Home Page' %}">
+                    Return to the TRT watersystem website
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
